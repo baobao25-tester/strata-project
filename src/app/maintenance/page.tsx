@@ -1,13 +1,35 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Maintenance() {
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-7xl mx-auto px-4">
-        <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">Building Maintenance & Fees</h1>
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Section with Background Image */}
+      <div className="relative h-[300px] w-full">
+        {/* Background Image with Blur */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/maintenance-bg.jpg"
+            alt="Maintenance Background"
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
+        </div>
+        
+        {/* Content */}
+        <div className="relative z-10 h-full flex items-center justify-center">
+          <h1 className="text-4xl md:text-5xl font-bold text-white text-center px-4">
+            Building Maintenance & Fees
+          </h1>
+        </div>
+      </div>
 
+      {/* Rest of the content */}
+      <div className="max-w-7xl mx-auto px-4 py-12">
         {/* Service Maintenance Section */}
         <div className="bg-white p-6 rounded-lg shadow-md mb-8">
           <h2 className="text-2xl font-semibold text-gray-800 mb-4">Service Maintenance Schedule</h2>
