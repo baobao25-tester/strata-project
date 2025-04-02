@@ -29,6 +29,7 @@ export default function Maintenance() {
                 <li>Emergency electrical services</li>
                 <li>After-hours security response</li>
                 <li>Emergency locksmith services</li>
+                <img src="src/app/maintenance/documents/Bamboo.png" alt="wallpaper" />
               </ul>
             </div>
           </div>
