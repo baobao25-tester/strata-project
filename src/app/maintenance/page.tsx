@@ -11,7 +11,7 @@ export default function Maintenance() {
         {/* Background Image with Blur */}
         <div className="absolute inset-0 z-0">
           <Image
-            src="/maintenance-bg.jpg"
+            src="/document/strata back ground.png"
             alt="Maintenance Background"
             fill
             className="object-cover"
