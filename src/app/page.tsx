@@ -1,11 +1,27 @@
+'use client';
+
+import Image from 'next/image';
+
 export default function Home() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <div className="relative h-[400px] bg-gray-100">
-        <div className="absolute inset-0 bg-black/50 z-10" />
-        <div className="relative z-20 h-full flex items-center justify-center">
-          <h1 className="text-4xl md:text-6xl font-bold text-white text-center">
+      <div className="relative h-[400px] w-full">
+        {/* Background Image with Blur */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/document/strata back ground.png"
+            alt="Main Background"
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
+        </div>
+        
+        {/* Content */}
+        <div className="relative z-10 h-full flex items-center justify-center">
+          <h1 className="text-4xl md:text-6xl font-bold text-white text-center px-4">
             Welcome to Kien Building
           </h1>
         </div>
