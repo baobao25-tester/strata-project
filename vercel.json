@@ -1,1 +1,50 @@
- 
+{
+    "version": 2,
+    "regions": ["iad1"],
+    "builds": [
+      {
+        "src": "package.json",
+        "use": "@vercel/next"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/api/(.*)",
+        "dest": "/api/$1"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "/$1"
+      }
+    ],
+    "env": {
+      "NODE_ENV": "preview"
+    },
+    "crons": [
+      {
+        "path": "/api/edge/maintenance-status",
+        "schedule": "0 9 * * 1"
+      },
+      {
+        "path": "/api/edge/emergency-alert",
+        "schedule": "0 9 * * 4"
+      }
+    ],
+    "build": {
+      "env": {
+        "NODE_ENV": "preview"
+      }
+    },
+    "github": {
+      "enabled": true,
+      "silent": true,
+      "autoAlias": false
+    },
+    "git": {
+      "deploymentEnabled": {
+        "main": false,
+        "preview": true,
+        "production": false
+      }
+    }
+  } 
