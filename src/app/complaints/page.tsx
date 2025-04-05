@@ -45,8 +45,8 @@ export default function ComplaintsPage() {
       } else {
         setStatus({ type: 'error', message: data.message || 'Something went wrong' });
       }
-    } catch (error) {
-      setStatus({ type: 'error', message: error instanceof Error ? error.message : 'Failed to submit complaint' });
+    } catch {
+      setStatus({ type: 'error', message: 'Failed to submit complaint' });
     }
   };
 
