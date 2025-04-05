@@ -36,7 +36,7 @@ export default function ContactPage() {
         setStatus({ type: 'error', message: data.message || 'Something went wrong' });
       }
     } catch (error) {
-      setStatus({ type: 'error', message: 'Failed to send message' });
+      setStatus({ type: 'error', message: error instanceof Error ? error.message : 'Failed to send message' });
     }
   };
 
