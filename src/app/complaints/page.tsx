@@ -2,65 +2,82 @@
 
 import { useState } from 'react';
 
-export default function Complaints() {
+export default function ComplaintsPage() {
   const [formData, setFormData] = useState({
     name: '',
-    unit: '',
     email: '',
-    phone: '',
-    type: 'complaint',
-    priority: 'medium',
+    unit: '',
+    category: 'maintenance',
     description: '',
+    urgency: 'low'
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', formData);
-  };
+  const [status, setStatus] = useState<{ type: 'success' | 'error' | ''; message: string }>({
+    type: '',
+    message: ''
+  });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus({ type: '', message: '' });
+
+    try {
+      const response = await fetch('/api/submit-form', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ...formData, type: 'complaint' }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setStatus({ type: 'success', message: 'Complaint submitted successfully!' });
+        setFormData({
+          name: '',
+          email: '',
+          unit: '',
+          category: 'maintenance',
+          description: '',
+          urgency: 'low'
+        });
+      } else {
+        setStatus({ type: 'error', message: data.message || 'Something went wrong' });
+      }
+    } catch (error) {
+      setStatus({ type: 'error', message: 'Failed to submit complaint' });
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-3xl mx-auto px-4">
-        <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">Submit a Complaint or Request</h1>
-        
-        <div className="bg-white p-6 rounded-lg shadow-md">
+    <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
+        <div className="px-6 py-8">
+          <h2 className="text-2xl font-bold text-center text-gray-900 mb-8">
+            Submit a Complaint
+          </h2>
+          
+          {status.message && (
+            <div className={`mb-4 p-4 rounded ${
+              status.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+            }`}>
+              {status.message}
+            </div>
+          )}
+
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                Full Name
+                Name
               </label>
               <input
                 type="text"
                 id="name"
-                name="name"
+                required
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 value={formData.name}
-                onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                required
-              />
-            </div>
-
-            <div>
-              <label htmlFor="unit" className="block text-sm font-medium text-gray-700">
-                Unit Number
-              </label>
-              <input
-                type="text"
-                id="unit"
-                name="unit"
-                value={formData.unit}
-                onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                required
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               />
             </div>
 
@@ -71,62 +88,61 @@ export default function Complaints() {
               <input
                 type="email"
                 id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 required
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               />
             </div>
 
             <div>
-              <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
-                Phone
+              <label htmlFor="unit" className="block text-sm font-medium text-gray-700">
+                Unit Number
               </label>
               <input
-                type="tel"
-                id="phone"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                type="text"
+                id="unit"
                 required
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                value={formData.unit}
+                onChange={(e) => setFormData({ ...formData, unit: e.target.value })}
               />
             </div>
 
             <div>
-              <label htmlFor="type" className="block text-sm font-medium text-gray-700">
-                Type of Submission
+              <label htmlFor="category" className="block text-sm font-medium text-gray-700">
+                Category
               </label>
               <select
-                id="type"
-                name="type"
-                value={formData.type}
-                onChange={handleChange}
+                id="category"
+                required
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                value={formData.category}
+                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
               >
-                <option value="complaint">Complaint</option>
-                <option value="request">Request</option>
-                <option value="feedback">Feedback</option>
-                <option value="suggestion">Suggestion</option>
+                <option value="maintenance">Maintenance</option>
+                <option value="noise">Noise Complaint</option>
+                <option value="security">Security</option>
+                <option value="parking">Parking</option>
+                <option value="other">Other</option>
               </select>
             </div>
 
             <div>
-              <label htmlFor="priority" className="block text-sm font-medium text-gray-700">
-                Priority Level
+              <label htmlFor="urgency" className="block text-sm font-medium text-gray-700">
+                Urgency Level
               </label>
               <select
-                id="priority"
-                name="priority"
-                value={formData.priority}
-                onChange={handleChange}
+                id="urgency"
+                required
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                value={formData.urgency}
+                onChange={(e) => setFormData({ ...formData, urgency: e.target.value })}
               >
                 <option value="low">Low</option>
                 <option value="medium">Medium</option>
                 <option value="high">High</option>
-                <option value="urgent">Urgent</option>
+                <option value="emergency">Emergency</option>
               </select>
             </div>
 
@@ -136,21 +152,20 @@ export default function Complaints() {
               </label>
               <textarea
                 id="description"
-                name="description"
-                value={formData.description}
-                onChange={handleChange}
-                rows={6}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 required
+                rows={4}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                value={formData.description}
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               />
             </div>
 
-            <div className="flex items-center justify-center">
+            <div>
               <button
                 type="submit"
-                className="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition-colors"
+                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
-                Submit
+                Submit Complaint
               </button>
             </div>
           </form>
