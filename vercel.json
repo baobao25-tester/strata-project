@@ -36,11 +36,6 @@
         "schedule": "0 9 * * 4"
       }
     ],
-    "build": {
-      "env": {
-        "NODE_ENV": "preview"
-      }
-    },
     "github": {
       "enabled": true,
       "silent": true,
