@@ -17,6 +17,12 @@
         "dest": "/$1"
       }
     ],
+    "functions": {
+      "api/**/*.js": {
+        "memory": 1024,
+        "maxDuration": 10
+      }
+    },
     "env": {
       "NODE_ENV": "preview"
     },
@@ -42,9 +48,9 @@
     },
     "git": {
       "deploymentEnabled": {
-        "main": false,
+        "main": true,
         "preview": true,
-        "production": false
+        "production": true
       }
     }
   } 
