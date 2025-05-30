@@ -9,6 +9,18 @@ const options = {
   maxPoolSize: 10,
   serverSelectionTimeoutMS: 5000,
   socketTimeoutMS: 45000,
+  ssl: true,
+  tls: true,
+  tlsInsecure: false,
+  tlsAllowInvalidCertificates: false,
+  tlsAllowInvalidHostnames: false,
+  minPoolSize: 0,
+  retryWrites: true,
+  retryReads: true,
+  // Force TLS 1.2
+  tlsCAFile: undefined, // Let Node.js use its built-in CA store
+  tlsCertificateKeyFile: undefined,
+  tlsCertificateKeyFilePassword: undefined,
 };
 
 let client: MongoClient;
