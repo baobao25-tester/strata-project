@@ -87,6 +87,15 @@ export default function Home() {
               </p>
             </div>
           </div>
+          {/* Add Events Button Here */}
+          <div className="text-center mt-8">
+            <a
+              href="/event"
+              className="inline-block bg-green-600 text-white px-6 py-3 rounded-md hover:bg-green-700 transition-colors text-lg font-semibold"
+            >
+              View Upcoming Events
+            </a>
+          </div>
         </div>
       </div>
     </div>
