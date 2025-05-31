@@ -16,9 +16,9 @@ export default function EventPage() {
         }
         const html = await response.text();
         setEventsHtml(html);
-      } catch (err: any)
+      } catch (err: unknown)
  {
-        setError(err.message);
+        setError(err instanceof Error ? err.message : 'An unknown error occurred');
       } finally {
         setLoading(false);
       }
